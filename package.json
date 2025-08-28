@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5002 --strictPort",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview --port 5002 --strictPort",
+    "start-mf": "npm run build && npm run preview"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
