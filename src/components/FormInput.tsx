@@ -12,10 +12,7 @@ type IFormInputProps = {
 } & TextFieldProps;
 
 const FormInput: FC<IFormInputProps> = ({ name, label, ...otherProps }) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
 
   return (
     <Controller
@@ -25,7 +22,6 @@ const FormInput: FC<IFormInputProps> = ({ name, label, ...otherProps }) => {
       render={({
         field: { onChange, value },
         fieldState: { error },
-        formState,
       }) => (
         <FormControl fullWidth sx={{ mb: 2 }}>
           <TextField

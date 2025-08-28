@@ -13,10 +13,7 @@ type IFormSelectProps = {
 } & SelectProps;
 
 const FormInput: FC<IFormSelectProps> = ({ name, label, children, ...otherProps }) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
 
   const labelId = `${name}-label`;
 
@@ -28,7 +25,6 @@ const FormInput: FC<IFormSelectProps> = ({ name, label, children, ...otherProps 
       render={({
         field: { onChange, value },
         fieldState: { error },
-        formState,
       }) => (
         <FormControl fullWidth sx={{ mb: 2 }}>
           <InputLabel size='small' id={labelId}>{label}</InputLabel>

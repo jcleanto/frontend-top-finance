@@ -13,10 +13,7 @@ type IFormSwitchProps = {
 } & SwitchProps;
 
 const FormSwitch: FC<IFormSwitchProps> = ({ name, label, ...otherProps }) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
 
   return (
     <Controller

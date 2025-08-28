@@ -1,11 +1,11 @@
 export interface IFinance {
-  id: number;
+  id?: number;
   descricao: string;
   valor: number;
   isDeleted?: boolean | undefined;
-  createdAt: string | null;
-  updatedAt: string | null;
-  deletedAt: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  deletedAt?: string | null;
 }
 
 export interface IFinanceResponse {
@@ -15,10 +15,8 @@ export interface IFinanceResponse {
 
 export interface IFinancesResponse {
   status: string;
-  data: {
-    finances: IFinance[];
-    count: number;
-  };
+  data: IFinance[];
+  count: number;
 }
 
 export interface IGenericResponse {

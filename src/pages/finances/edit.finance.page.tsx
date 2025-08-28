@@ -9,7 +9,6 @@ import { Box, Breadcrumbs, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import BusinessIcon from '@mui/icons-material/Business';
 import { getFinanceByIdFn, updateFinanceFn } from '../../api/financeApi';
-import { useStateContext } from '../../context';
 import FormInput from '../../components/FormInput';
 
 const LinkItem = styled(Link)`
@@ -22,14 +21,13 @@ const LinkItem = styled(Link)`
 
 const editFinanceSchema = z.object({
   id: z.number(),
-  valor: z.coerce.number(),
+  valor: z.coerce.number<number>(),
   descricao: z.string().min(1, 'A Descrição é obrigatória'),
 });
 
 export type EditFinanceInput = z.infer<typeof editFinanceSchema>;
 
 const EditFinancePage = () => {
-  const stateContext = useStateContext();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -37,8 +35,6 @@ const EditFinancePage = () => {
     queryKey: ['getFinancerById', id], 
     queryFn: () => getFinanceByIdFn(id),
   });
-
-  // const user = stateContext.state.authUser;
 
   const methods = useForm<EditFinanceInput>({
     resolver: zodResolver(editFinanceSchema),
@@ -82,7 +78,7 @@ const EditFinancePage = () => {
 
   useEffect(() => {
     if (!isLoadingFinance && !error && data) {
-      setValue('id', data.data.id);
+      setValue('id', data.data.id ? data.data.id : 0);
       setValue('valor', data.data.valor);
       setValue('descricao', data.data.descricao);
     }

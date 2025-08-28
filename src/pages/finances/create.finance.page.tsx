@@ -9,8 +9,8 @@ import { Box, Breadcrumbs, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import BusinessIcon from '@mui/icons-material/Business';
 import { createFinanceFn } from '../../api/financeApi';
-import { useStateContext } from '../../context';
 import FormInput from '../../components/FormInput';
+import type { IFinance } from '../../api/types';
 
 const LinkItem = styled(Link)`
   text-decoration: none;
@@ -21,17 +21,14 @@ const LinkItem = styled(Link)`
 `;
 
 const createSchema = z.object({
-  valor: z.coerce.number(),
+  valor: z.coerce.number<number>(),
   descricao: z.string().min(1, 'A Descrição é obrigatória'),
-});
+}) satisfies z.ZodType<IFinance>;;
 
 export type CreateInput = z.infer<typeof createSchema>;
 
 const CreateFinancePage = () => {
-  const stateContext = useStateContext();
   const navigate = useNavigate();
-
-  const user = stateContext.state.authUser;
 
   const methods = useForm<CreateInput>({
     resolver: zodResolver(createSchema),
