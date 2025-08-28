@@ -8,44 +8,65 @@ import {
 import { Box, Breadcrumbs, Button, Paper, Typography } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useQuery } from '@tanstack/react-query';
-import { getFinancesFn } from '../../api/financeApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+import { deleteFinanceFn, getFinancesFn } from '../../api/financeApi';
 import { type IFinance } from '../../api/types';
 import { useNavigate } from 'react-router-dom';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 type Row = (IFinance[])[number];
 
 export default function ListFinancePage() {
   const [rows, setRows] = React.useState<Row[]>([]);
+  const [openConfirmDialog, setOpenConfirmDialog] = React.useState(false);
+  const [financeIdToDelete, setFinanceIdToDelete] = React.useState('0');
+
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery({
     queryKey: ['allFinances'], 
     queryFn: () => getFinancesFn(),
   });
 
-  /*
-  const deleteUser = React.useCallback(
-    (id: GridRowId) => () => {
-      setTimeout(() => {
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-      });
-    },
-    [],
+  const { mutate, isPending } = useMutation(
+    { mutationFn: (financeId: string) => deleteFinanceFn(financeId),
+      onSuccess(data) {
+        toast.success(data?.message);
+        queryClient.invalidateQueries();
+      },
+      onError(error: any) {
+        if (Array.isArray((error as any).response.data.error)) {
+          (error as any).response.data.error.forEach((el: any) =>
+            toast.error(el.message, {
+              position: 'top-right',
+            })
+          );
+        } else {
+          toast.error((error as any).response.data.message, {
+            position: 'top-right',
+          });
+        }
+      },
+    }
   );
 
-  const toggleAdmin = React.useCallback(
-    (id: GridRowId) => () => {
-      setRows((prevRows) =>
-        prevRows.map((row) =>
-          row.id === id ? { ...row, active: !row.active } : row,
-        ),
-      );
-    },
-    [],
-  );
-  */
+  const handleOpenConfirmDialog = (financeId: string) => {
+    setFinanceIdToDelete(financeId);
+    setOpenConfirmDialog(true);
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setOpenConfirmDialog(false);
+  };
+
+  const handleConfirmDialog = () => {
+    mutate(financeIdToDelete);
+    setOpenConfirmDialog(false);
+  };  
 
   const columns = React.useMemo<GridColDef<Row>[]>(
     () => [
@@ -62,6 +83,12 @@ export default function ListFinancePage() {
             icon={<EditIcon />}
             label="Edit"
             onClick={() => navigate(`/finance/${params.id}`)}
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={() => handleOpenConfirmDialog(`${params.id}`)}
+            disabled={isPending}
           />,
         ],
       },
@@ -103,6 +130,13 @@ export default function ListFinancePage() {
           Criar Novo Lançamento Financeiro
         </Button>
       </Box>
+      <ConfirmDialog
+        title='Tem certeza que deseja deletar esse Lançamento Financeiro?'
+        description='Clique em Confirmar para deletar ou clique em Cancelar.'
+        open={openConfirmDialog}
+        handleClose={handleCloseConfirmDialog}
+        handleConfirm={handleConfirmDialog}
+      />
     </>
   );
 }

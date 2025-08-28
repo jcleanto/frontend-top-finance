@@ -3,7 +3,7 @@ import type { IGenericResponse, IFinanceResponse, IFinancesResponse } from './ty
 import type { EditFinanceInput } from '../pages/finances/edit.finance.page';
 import type { CreateInput } from '../pages/finances/create.finance.page';
 
-const BASE_URL = 'http://localhost:3001/';
+const BASE_URL = 'http://localhost:10000/';
 
 export const financeApi = axios.create({
   baseURL: BASE_URL,
@@ -29,5 +29,10 @@ export const updateFinanceFn = async (finance: EditFinanceInput) => {
 
 export const createFinanceFn = async (finance: CreateInput) => {
   const response = await financeApi.post<IGenericResponse>('finances/new', finance);
+  return response.data;
+};
+
+export const deleteFinanceFn = async (id: string | undefined) => {
+  const response = await financeApi.delete<IGenericResponse>(`finances/${id}`);
   return response.data;
 };
