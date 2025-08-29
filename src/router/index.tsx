@@ -10,9 +10,9 @@ const Loadable =
       </Suspense>
     );
 
-const ListFinancePage = Loadable(lazy(() => import('../pages/finances/list.finance.page')));
-const CreateFinancePage = Loadable(lazy(() => import('../pages/finances/create.finance.page')));
-const EditFinancePage = Loadable(lazy(() => import('../pages/finances/edit.finance.page')));
+const ListFinancePage = Loadable(lazy(() => import('../finance/crud/list.finance.page')));
+const CreateFinancePage = Loadable(lazy(() => import('../finance/crud/create.finance.page')));
+const EditFinancePage = Loadable(lazy(() => import('../finance/crud/edit.finance.page')));
 
 const normalRoutes: RouteObject = {
   path: '*',

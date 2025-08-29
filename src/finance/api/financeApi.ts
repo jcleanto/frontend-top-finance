@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { IGenericResponse, IFinanceResponse, IFinancesResponse } from './types';
-import type { EditFinanceInput } from '../pages/finances/edit.finance.page';
-import type { CreateInput } from '../pages/finances/create.finance.page';
+import type { EditFinanceInput } from '../crud/edit.finance.page';
+import type { CreateInput } from '../crud/create.finance.page';
 
 const BASE_URL = 'http://localhost:10000/';
 

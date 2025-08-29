@@ -8,9 +8,9 @@ import * as z from 'zod';
 import { Box, Breadcrumbs, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import BusinessIcon from '@mui/icons-material/Business';
-import { createFinanceFn } from '../../api/financeApi';
+import { createFinanceFn } from '../api/financeApi';
 import FormInput from '../../components/FormInput';
-import type { IFinance } from '../../api/types';
+import type { IFinance } from '../api/types';
 
 const LinkItem = styled(Link)`
   text-decoration: none;

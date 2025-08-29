@@ -12,8 +12,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { deleteFinanceFn, getFinancesFn } from '../../api/financeApi';
-import { type IFinance } from '../../api/types';
+import { deleteFinanceFn, getFinancesFn } from '../api/financeApi';
+import { type IFinance } from '../api/types';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../components/ConfirmDialog';
 

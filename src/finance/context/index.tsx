@@ -1,5 +1,5 @@
 import React from 'react';
-import type { IFinance } from '../api/types';
+import type { IFinance } from '../finance/api/types';
 
 type State = {
   authUser: IFinance | null;
