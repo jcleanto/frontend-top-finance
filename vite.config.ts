@@ -10,9 +10,11 @@ export default defineConfig({
       name: 'frontend_top_finance',
       filename: 'remoteEntry.js',
       exposes: {
-        './ListFinancePage': './src/pages/finances/list.finance.page.tsx',
+        './ListFinancePage': './src/finance/crud/list.finance.page.tsx',
+        './CreateFinancePage': './src/finance/crud/create.finance.page.tsx',
+        './EditFinancePage': './src/finance/crud/edit.finance.page.tsx',
       },
-      shared: ['react', 'react-dom']
+      shared: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query', '@mui/x-data-grid']
     })
   ],
   build: {
