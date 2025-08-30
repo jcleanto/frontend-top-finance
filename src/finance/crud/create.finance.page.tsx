@@ -96,7 +96,7 @@ const CreateFinancePage = () => {
             borderRadius: 2,
           }}
         >
-          <FormInput name='valor' label='Valor' />
+          <FormInput name='valor' label='Valor' type='number' />
           <FormInput name='descricao' label='Descrição' />
 
           <Box sx={{ display: 'flex', justifyContent: 'end' }}>
