@@ -28,7 +28,7 @@ const ConfirmDialog: React.FC<IConfirmDialogProps> = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
+      <DialogTitle id="alert-dialog-title" data-testid="alert-dialog-title">
         {title}
       </DialogTitle>
       <DialogContent>

@@ -32,6 +32,7 @@ const FormInput: FC<IFormInputProps> = ({ name, label, ...otherProps }) => {
             value={value}
             fullWidth
             label={label}
+            name={name}
             {...otherProps}
           />
         </FormControl>
