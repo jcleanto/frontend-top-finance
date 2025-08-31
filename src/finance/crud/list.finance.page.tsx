@@ -6,7 +6,7 @@ import {
   type GridSlots,
 } from '@mui/x-data-grid';
 import { Box, Breadcrumbs, Button, Paper, Typography } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -108,7 +108,7 @@ export default function ListFinancePage() {
       <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
         <Breadcrumbs separator='›' aria-label='breadcrumb' sx={{ mb: 1 }}>
           <Typography key='1' color='text.primary' sx={{ display: 'flex', alignItems: 'center' }}>
-            <PersonIcon sx={{ mr: 0.5 }} fontSize='inherit' />Lançamentos Financeiros
+            <PaymentsIcon sx={{ mr: 0.5 }} fontSize='inherit' />Lançamentos Financeiros
           </Typography>
         </Breadcrumbs>
         <DataGrid
@@ -124,7 +124,7 @@ export default function ListFinancePage() {
         <Button
           loading={isLoading}
           variant='contained'
-          sx={{ mt: 1, mr: 2 }}
+          sx={{ mt: 1 }}
           onClick={() => navigate('/finance')}
         >
           Criar Novo Lançamento Financeiro

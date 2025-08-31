@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import * as z from 'zod';
 import { Box, Breadcrumbs, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import BusinessIcon from '@mui/icons-material/Business';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import { getFinanceByIdFn, updateFinanceFn } from '../api/financeApi';
 import FormInput from '../../components/FormInput';
 
@@ -30,6 +30,13 @@ export type EditFinanceInput = z.infer<typeof editFinanceSchema>;
 const EditFinancePage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  // TODO: temporary get Auth User stored in localStorage, as the authentication flow is still not finished
+  const localStorageItem = localStorage.getItem('authUser');
+  let authUser = null;
+  if (localStorageItem) {
+    authUser = JSON.parse(localStorageItem);
+  }
 
   const { isLoading: isLoadingFinance, error, data } = useQuery({
     queryKey: ['getFinancerById', id], 
@@ -85,14 +92,17 @@ const EditFinancePage = () => {
   }, [isLoadingFinance, error, data, setValue]);
 
   const onSubmitHandler: SubmitHandler<EditFinanceInput> = (values) => {
-    mutate(values);
+    mutate({
+      ...values,
+      userId: authUser?.id,
+    });
   };
 
   return (
     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
       <Breadcrumbs separator='›' aria-label='breadcrumb' sx={{ mb: 1 }}>
         <LinkItem key='1' to={'/finances'} color='inherit' sx={{ display: 'flex', alignItems: 'center' }}>
-          <BusinessIcon sx={{ mr: 0.5 }} fontSize='inherit' />Lançamentos Financeiros
+          <PaymentsIcon sx={{ mr: 0.5 }} fontSize='inherit' />Lançamentos Financeiros
         </LinkItem>
         <Typography key='2' color='text.primary'>
           Editar

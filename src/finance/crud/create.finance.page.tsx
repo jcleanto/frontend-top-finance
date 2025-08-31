@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Box, Breadcrumbs, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import BusinessIcon from '@mui/icons-material/Business';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import { createFinanceFn } from '../api/financeApi';
 import FormInput from '../../components/FormInput';
 import type { IFinance } from '../api/types';
@@ -23,12 +23,19 @@ const LinkItem = styled(Link)`
 const createSchema = z.object({
   valor: z.coerce.number<number>(),
   descricao: z.string().min(1, 'A Descrição é obrigatória'),
-}) satisfies z.ZodType<IFinance>;;
+}) satisfies z.ZodType<IFinance>;
 
 export type CreateInput = z.infer<typeof createSchema>;
 
 const CreateFinancePage = () => {
   const navigate = useNavigate();
+
+  // TODO: temporary get Auth User stored in localStorage, as the authentication flow is still not finished
+  const localStorageItem = localStorage.getItem('authUser');
+  let authUser = null;
+  if (localStorageItem) {
+    authUser = JSON.parse(localStorageItem);
+  }
 
   const methods = useForm<CreateInput>({
     resolver: zodResolver(createSchema),
@@ -70,14 +77,17 @@ const CreateFinancePage = () => {
   }, [isSubmitSuccessful]);
 
   const onSubmitHandler: SubmitHandler<CreateInput> = (values) => {
-    mutate(values);
+    mutate({
+      ...values,
+      userId: authUser?.id,
+    });
   };
 
   return (
     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
       <Breadcrumbs separator='›' aria-label='breadcrumb' sx={{ mb: 1 }}>
         <LinkItem key='1' to={'/finances'} color='inherit' sx={{ display: 'flex', alignItems: 'center' }}>
-          <BusinessIcon sx={{ mr: 0.5 }} fontSize='inherit' />Lançamentos Financeiros
+          <PaymentsIcon sx={{ mr: 0.5 }} fontSize='inherit' />Lançamentos Financeiros
         </LinkItem>
         <Typography key='2' color='text.primary'>
           Criar Novo Lançamento Financeiro

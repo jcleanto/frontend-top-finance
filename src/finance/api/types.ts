@@ -1,5 +1,6 @@
 export interface IFinance {
   id?: number;
+  userId?: string | null;
   descricao: string;
   valor: number;
   isDeleted?: boolean | undefined;
