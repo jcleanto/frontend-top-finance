@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import federation from '@originjs/vite-plugin-federation'
+// import { dependencies } from './package.json';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -14,10 +15,39 @@ export default defineConfig({
         './CreateFinancePage': './src/finance/crud/create.finance.page.tsx',
         './EditFinancePage': './src/finance/crud/edit.finance.page.tsx',
       },
-      shared: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query', '@mui/x-data-grid']
+      shared: [
+        'react',
+        'react-dom',
+        'react-router-dom',
+        '@tanstack/react-query',
+        '@mui/x-data-grid',
+        // added all for testing
+        '@emotion/react',
+        '@emotion/styled',
+        '@hookform/resolvers',
+        '@mui/icons-material',
+        '@mui/material',
+        'axios',
+        'react-hook-form',
+        'react-toastify',
+        'zod'
+      ]
+      // shared: [dependencies.react],
     })
   ],
+  preview: {
+    port: 5002,
+    strictPort: true,
+  },
+  server: {
+    host: '0.0.0.0',
+    port: 5002,
+    strictPort: true,
+    origin: "http://0.0.0.0:5002",
+    fs: { allow: ['.', '../shared'] }
+  },
   build: {
+    modulePreload: false,
     target: 'esnext',
     minify: false,
     cssCodeSplit: false,

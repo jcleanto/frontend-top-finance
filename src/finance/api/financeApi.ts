@@ -3,7 +3,7 @@ import type { IGenericResponse, IFinanceResponse, IFinancesResponse } from './ty
 import type { EditFinanceInput } from '../crud/edit.finance.page';
 import type { CreateInput } from '../crud/create.finance.page';
 
-const BASE_URL = 'http://localhost:10000/';
+const BASE_URL = 'http://localhost:3001/';
 
 export const financeApi = axios.create({
   baseURL: BASE_URL,
