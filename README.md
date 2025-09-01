@@ -25,3 +25,7 @@ $ npm run start-mf
 # unit tests
 $ npm run test
 ```
+
+## Acessar aplicação
+
+http://localhost:5002/finances
