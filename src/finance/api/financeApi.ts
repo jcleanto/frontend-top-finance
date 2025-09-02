@@ -17,6 +17,11 @@ export const getFinancesFn = async () => {
   return response.data;
 };
 
+export const getFinancesByUserIdFn = async (userId: string | undefined) => {
+  const response = await financeApi.get<IFinancesResponse>(`finances/${userId}/user`);
+  return response.data;
+};
+
 export const getFinanceByIdFn = async (id: string | undefined) => {
   const response = await financeApi.get<IFinanceResponse>(`finances/${id}`);
   return response.data;

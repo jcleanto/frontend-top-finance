@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { deleteFinanceFn, getFinancesFn } from '../api/financeApi';
+import { deleteFinanceFn, getFinancesByUserIdFn, getFinancesFn } from '../api/financeApi';
 import { type IFinance } from '../api/types';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../components/ConfirmDialog';
@@ -26,10 +26,18 @@ export default function ListFinancePage() {
 
   const navigate = useNavigate();
 
+  // TODO: temporary get Auth User stored in localStorage, as the authentication flow is still not finished
+  const localStorageItem = localStorage.getItem('authUser');
+  let authUser = null;
+  if (localStorageItem) {
+    authUser = JSON.parse(localStorageItem);
+  }
+
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery({
-    queryKey: ['allFinances'], 
-    queryFn: () => getFinancesFn(),
+    queryKey: ['allFinances'],
+    // in case of admin user call all finances else call finances by user id
+    queryFn: () => authUser.role === 'admin' ? getFinancesFn() : getFinancesByUserIdFn(authUser.id),
   });
 
   const { mutate, isPending } = useMutation(
